@@ -1,0 +1,30 @@
+#! /usr/bin/env sh
+
+# user-configured settings
+TORI_ROOT="$HOME/.config/tori"
+
+# application logic
+
+log() {
+	local level="$1" # unimplemented
+	local message="$2"
+
+	echo "$message"
+}
+
+
+traverse() {
+	local target="$1"
+	log debug "target: $target"
+
+	if [ -f "$target" ]; then
+		echo "file: $target"
+	elif [ -d "$target" ]; then
+		traverse $target/*
+	fi
+}
+
+cd "$TORI_ROOT"
+for item in $TORI_ROOT/*; do
+	traverse "$item"
+done
