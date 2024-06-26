@@ -5,6 +5,8 @@ TORI_ROOT="$HOME/.config/tori"
 
 # global state
 files=
+base_files=
+bkp_files=
 
 # application logic
 
@@ -18,19 +20,24 @@ log() {
 }
 
 
-traverse() {
+scan_directory() {
 	local target="$1"
+	local files=
+	local escaped_config_root="$(echo $TORI_ROOT | sed 's/\//\\\//g')"
 
-	log debug "traversing $target"
 	if [ -d "$target" ]; then
-		log debug "found dir: $target"
-		files="$(find "$target" -type f)\n$files"
+		scan="$(find "$target" -type f)"
+		for line in $scan; do
+			line="$(echo $line | sed "s/$escaped_config_root\///")"
+			files="$line\n$files"
+		done
 	fi
 
-	log debug "collected files:\n$files"
+	echo "$files"
 }
 
-cd "$TORI_ROOT"
-for item in $TORI_ROOT/*; do
-	traverse "$item"
-done
+base_files="$(scan_directory "$TORI_ROOT/base")"
+bkp_files="$(scan_directory "$TORI_ROOT/bkp")"
+
+log debug "collected base files:\n$base_files"
+log debug "collected bkp files:\n$bkp_files"

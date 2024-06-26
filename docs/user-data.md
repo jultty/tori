@@ -26,3 +26,4 @@ Both of these directories mimic the file structure found from the root of the fi
                 └── .shrc
 ```
 
+`tori` will look only for regular files inside your configuration directory and currently will ignore symbolic link and any other filetype when scanning it.
