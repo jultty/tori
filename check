@@ -3,25 +3,31 @@
 # user-configured settings
 TORI_ROOT="$HOME/.config/tori"
 
+# global state
+files=
+
 # application logic
 
 log() {
 	local level="$1" # unimplemented
 	local message="$2"
 
-	echo "$message"
+	if [ -n "$DEBUG" ] && [ $level = debug ]; then
+		printf "$(date "+%H:%M:%N") $message\n"
+	fi
 }
 
 
 traverse() {
 	local target="$1"
-	log debug "target: $target"
 
-	if [ -f "$target" ]; then
-		echo "file: $target"
-	elif [ -d "$target" ]; then
-		traverse $target/*
+	log debug "traversing $target"
+	if [ -d "$target" ]; then
+		log debug "found dir: $target"
+		files="$(find "$target" -type f)\n$files"
 	fi
+
+	log debug "collected files:\n$files"
 }
 
 cd "$TORI_ROOT"
