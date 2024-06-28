@@ -13,6 +13,7 @@ Below is a list of assumptions made about what your system supports:
     - `find`
     - `sed`
     - `date` with nanoseconds as `%N`
+      - While nanoseconds support in `date` is not in the POSIX 2017 standard, it is used only when `$DEBUG` is set in the environment and is available on the currently supported systems (FreeBSD, Void Linux) and on the next operating system with planned support (Debian).
     - `env` at `/usr/bin/env`
         - While this may be an issue from a portability standpoint, hardcoding the path where `sh` is also poses another portability issue. A more robust way to find it would be desirable.
 
