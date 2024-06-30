@@ -6,7 +6,7 @@ CONFIG_ROOT="$HOME/.config/tori"
 TMP_DIR="/tmp/tori"
 
 . "$TORI_ROOT/src/package.sh"
-. "$TORI_ROOT/src/utilities.sh"
+. "$TORI_ROOT/src/utility.sh"
 . "$TORI_ROOT/src/configuration.sh"
 
 # state

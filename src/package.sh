@@ -17,14 +17,12 @@ package_manager() {
 
 	if [ "$command" = 'get_manually_installed' ]; then
 		output=$(eval $manager $args__get_manually_installed)
-		log debug "package.package_manager returning: $output"
 		printf "$output"
 	fi
 }
 
 get_system_packages() {
 	local packages=$(package_manager get_manually_installed)
-	log debug "package.get_system_packages returning: $packages"
 	printf "$packages"
 }
 
