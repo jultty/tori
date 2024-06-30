@@ -7,4 +7,4 @@ The `packages` file is located at the root of the configuration directory and co
 
 When processing the package list, `tori` will compare the list of installed packages to the list in the configuration and ask the user for what action to take in order to conciliate them, unless a default action has been specified.
 
-For information on how the application determines differences between the configuration package list and the actually installed packages, see [`check`](check).
+For information on how the application determines differences between the configuration package list and installed packages, see [`check`](./check.md).

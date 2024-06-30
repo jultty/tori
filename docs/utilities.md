@@ -7,12 +7,12 @@ The two utility functions presently implemented are:
 
 ## `log`
 
-This utilitiy takes a log level as its first argument and a message as its second argument. The log message must be wrapped in double quotes, otherwise only the first world will be considered part of the message and the rest will be discarded.
+This utility takes a log level as its first argument and a message as its second argument. The log message must be wrapped in double quotes, otherwise only the first word will be considered part of the message and the rest will be discarded.
 
 The current log levels are:
-- `debug`: Displays only when `DEBUG` is set in the environment. The value `DEBUG` is set to does not matter. To disable the log messages, unset `DEBUG`, for example, with `export DEBUG=` or 'unset DEBUG`
+- `debug`: Displays only when `DEBUG` is set in the environment with a nanosecond-precision timestamp. The value `DEBUG` is set to does not matter. To disable the log messages, unset `DEBUG`, for example, with `export DEBUG=` or `unset DEBUG`
 - `user`: Always displays, with `[tori]` at the very left followed by a second-precision timestamp, a colon and the message
-- `fatal`: Always displays, exactly as `user`
+- `fatal`: Always displays, exactly as in the `user` level
 
 For now, all log messages are printed to `STDERR` so as not to shadow function return values.
 
