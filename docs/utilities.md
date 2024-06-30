@@ -1,4 +1,4 @@
-The utilities functions available at `src/utilities.sh` provide functionality that is either very simple in purpose or general to the whole application.
+The utilities functions available at `src/utility.sh` provide functionality that is either very simple in purpose or general to the whole application.
 
 The two utility functions presently implemented are:
 
