@@ -1,0 +1,51 @@
+#! /usr/bin/env sh
+
+VERSION="0.0.4 2024-06-30"
+TORI_ROOT="$HOME/tori"
+CONFIG_ROOT="$HOME/.config/tori"
+TMP_DIR="/tmp/tori"
+
+. "$TORI_ROOT/src/package.sh"
+. "$TORI_ROOT/src/utilities.sh"
+. "$TORI_ROOT/src/configuration.sh"
+
+# state
+
+## user input
+argument="$1"
+parameter="$2"
+
+## global constants
+OS="$(uname -s)"
+
+## global state
+base_files=
+bkp_files=
+user_packages=
+system_packages=
+
+# entry point
+
+prepare_directories
+
+if [ "$argument" = check ]; then
+	base_files="$(scan_directory "$CONFIG_ROOT/base")"
+	bkp_files="$(scan_directory "$CONFIG_ROOT/bkp")"
+
+	log debug "collected base files:\n$base_files"
+	log debug "collected bkp files:\n$bkp_files"
+
+	scan_packages
+elif [ "$argument" = version ] || [ "$argument" = '-v' ] || [ "$argument" = '--version' ]; then
+	echo "$VERSION"
+elif [ "$argument" = help ] || [ "$argument" = -h ] || [ "$argument" = --help ]; then
+	printf "\n\ttori: configuration managent and system replication tool\n"
+	printf "\n\tOptions:\n\n"
+	printf "\tcheck\t\tcompare configuration to system state\n"
+	printf "\n"
+	printf "\tversion\t\tprint current version with release date\n"
+	printf "\thelp\t\tshow this help text\n"
+	printf "\n\tSee 'man tori' or https://brew.bsd.cafe/jutty/tori for more\n\n"
+else
+	echo "Use 'tori help' for usage instructions"
+fi

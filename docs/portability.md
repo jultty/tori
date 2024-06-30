@@ -8,10 +8,16 @@ Below is a list of assumptions made about what your system supports:
 
 - shell
     - `local` keyword
+    - `read` keyword with `read -r -p <prompt> <variable_with_user_input>` syntax
+    - `printf`
+    - `echo`
 
-- executables
+- utilities
     - `find`
+    - `grep`
     - `sed`
+    - `xargs`
+    - `uname`
     - `date` with nanoseconds as `%N`
       - While nanoseconds support in `date` is not in the POSIX 2017 standard, it is used only when `$DEBUG` is set in the environment and is available on the currently supported systems (FreeBSD, Void Linux) and on the next operating system with planned support (Debian).
     - `env` at `/usr/bin/env`

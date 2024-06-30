@@ -1,8 +1,8 @@
-User data is initially configured to $HOME/.config/tori. At this stage, this allows concentrating all necessary data in a single place, however it is not ideal to have non-configuration file there.
+User data is initially configured to $HOME/.config/tori. At this stage, this allows concentrating all necessary data in a single place, however it is not ideal to have non-configuration files, such as backups, all in the same location.
 
 When making these configurable, it would be interesting to move the default backup location to $HOME/.local.
 
-The user data is organized in two main directories: `base` and `bkp`.
+User data is organized in two main directories: `base` and `bkp`.
 
 - `base`: contains the files that will be matched against the current system's files
 - `bkp`: contains the original files prior to any intervention by `tori`. This directory is further split into two directories:
