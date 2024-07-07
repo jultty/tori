@@ -3,3 +3,4 @@
 . "$TORI_ROOT/src/package/package.sh"
 . "$TORI_ROOT/src/package/package_resolution.sh"
 . "$TORI_ROOT/src/utility.sh"
+. "$TORI_ROOT/src/system.sh"

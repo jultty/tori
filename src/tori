@@ -1,5 +1,6 @@
 #! /usr/bin/env sh
 
+# paths
 VERSION="0.0.4 2024-06-30"
 TORI_ROOT="$HOME/tori"
 CONFIG_ROOT="$HOME/.config/tori"
@@ -16,7 +17,7 @@ parameter="$2"
 set_opts -
 
 ## global constants
-OS="$(uname -s)"
+OS="$(get_operating_system)"
 
 ## global state
 base_files=
