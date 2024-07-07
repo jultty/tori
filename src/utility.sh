@@ -24,3 +24,12 @@ prepare_directories() {
 	fi
 }
 
+print_help() {
+	printf "\n  tori: configuration managent and system replication tool\n"
+	printf "\n    Options:\n\n"
+	printf "\tcheck\t\tcompare configuration to system state\n"
+	printf "\n"
+	printf "\tversion\t\tprint current version with release date\n"
+	printf "\thelp\t\tshow this help text\n"
+	printf "\n  See 'man tori' or https://brew.bsd.cafe/jutty/tori for more\n\n"
+}
