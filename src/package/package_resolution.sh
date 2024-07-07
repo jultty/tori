@@ -1,31 +1,3 @@
-# package management functions
-
-get_user_packages() {
-	cat $CONFIG_ROOT/packages | sort | uniq
-}
-
-package_manager() {
-	local command="$1"
-	local manager
-	local args__get_manually_installed
-	local output
-
-	if [ $OS = "FreeBSD" ]; then
-		manager="pkg"
-		args__get_manually_installed='query -e "%a = 0" "%n"'
-	fi
-
-	if [ "$command" = 'get_manually_installed' ]; then
-		output=$(eval $manager $args__get_manually_installed)
-		printf "$output"
-	fi
-}
-
-get_system_packages() {
-	local packages=$(package_manager get_manually_installed)
-	printf "$packages"
-}
-
 resolve_packages() {
 	local strategy=
 
@@ -39,7 +11,7 @@ resolve_packages() {
 
 		printf "\nInstalled packages not on configuration: $not_on_configuration\n"
 		echo "  [1] Uninstall all"
-		echo "  [2] Enter packages to uninstall" 
+		echo "  [2] Enter packages to uninstall"
 		echo "  [3] Add all to configuration"
 		echo "  [4] Enter packages to add to configuration"
 		echo "  [5] Decide on editor"
@@ -50,6 +22,8 @@ resolve_packages() {
 
 		if [ "$strategy" = 1 ]; then
 			: # TODO
+		elif [ $strategy -eq 6 ]; then
+			return 0
 		fi
 	fi
 
@@ -68,6 +42,8 @@ resolve_packages() {
 
 		if [ $strategy -eq 1 ]; then
 			: # TODO
+		elif [ $strategy -eq 6 ]; then
+			return 0
 		fi
 	fi
 }
