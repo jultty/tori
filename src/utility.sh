@@ -13,6 +13,14 @@ log() {
 	fi
 }
 
+set_opts() {
+  sign="$1"
+
+  set "${sign}o" errexit
+  set "${sign}o" nounset
+  set "${sign}o" pipefail
+}
+
 prepare_directories() {
 	if ! [ -d "$TMP_DIR" ]; then
 		mkdir "$TMP_DIR"
