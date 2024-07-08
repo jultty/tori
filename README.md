@@ -28,7 +28,7 @@ ln -s /path/to/repository/tori $HOME/.local/bin/tori
 
 ## Usage
 
-Currently, the following options are implemented:
+Currently, the following commands are implemented:
 
 - `check`: check for divergences between the configuration and the system
 - `help`: show a usage summary with supported options
