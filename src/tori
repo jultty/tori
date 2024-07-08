@@ -7,7 +7,7 @@ main() {
   CONFIG_ROOT="$HOME/.config/tori"
   TMP_DIR="/tmp/tori"
 
-  read_config_paths
+  check_core_paths
 
   . "$TORI_ROOT/src/index.sh"
 
@@ -45,11 +45,26 @@ main() {
   fi
 }
 
-read_config_paths() {
-  TORI_ROOT="$(grep -i '^tori_root' "$CONFIG_ROOT/tori.conf" \
-    | cut -d '=' -f 2 | xargs \
-    | sed "s*~*$HOME*" | sed "s*\$HOME*$HOME*g" \
-  )"
+check_core_paths() {
+  local tori_conf="$CONFIG_ROOT/tori.conf"
+
+  if [ -f "$tori_conf" ]; then
+    local tori_root_value
+    tori_root_value="$(grep -i '^tori_root' "$CONFIG_ROOT/tori.conf" \
+      | cut -d '=' -f 2 | xargs \
+      | sed "s*~*$HOME*" | sed "s*\$HOME*$HOME*g" \
+    )"
+    if [ -n "$tori_root_value" ]; then
+      TORI_ROOT="$tori_root_value"
+    fi
+  fi
+
+  if ! [ -f "$TORI_ROOT/src/index.sh" ]; then
+    echo "No valid tori installation found at $TORI_ROOT"
+    exit 1
+  fi
+
+
   [ -n "$DEBUG" ] && echo "TORI_ROOT: $TORI_ROOT"
 }
 
