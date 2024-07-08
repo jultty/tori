@@ -1,40 +1,56 @@
 #! /usr/bin/env sh
 
-# paths
-VERSION="0.0.4 2024-06-30"
-TORI_ROOT="$HOME/tori"
-CONFIG_ROOT="$HOME/.config/tori"
-TMP_DIR="/tmp/tori"
+main() {
+  # paths
+  VERSION="0.0.4 2024-06-30"
+  TORI_ROOT="$HOME/.local/share/tori"
+  CONFIG_ROOT="$HOME/.config/tori"
+  TMP_DIR="/tmp/tori"
 
-. "$TORI_ROOT/src/index.sh"
+  read_config_paths
 
-# state
+  . "$TORI_ROOT/src/index.sh"
 
-## user input
-argument="$1"
-parameter="$2"
+  # state
 
-set_opts -
+  DEBUG=$DEBUG
 
-## global constants
-OS="$(get_operating_system)"
+  ## user input
+  argument="$1"
+  parameter="$2"
 
-## global state
-base_files=
-bkp_files=
-user_packages=
-system_packages=
+  set_opts -
 
-# entry point
+  ## global constants
+  OS="$(get_operating_system)"
 
-prepare_directories
+  ## global state
+  base_files=
+  bkp_files=
+  user_packages=
+  system_packages=
 
-if [ "$argument" = check ]; then
-	check
-elif [ "$argument" = version ] || [ "$argument" = -v ] || [ "$argument" = --version ]; then
-	echo "$VERSION"
-elif [ "$argument" = help ] || [ "$argument" = -h ] || [ "$argument" = --help ]; then
-	print_help
-else
-	echo "Use 'tori help' for usage instructions"
-fi
+  # entry point
+
+  prepare_directories
+
+  if [ "$argument" = check ]; then
+    check
+  elif [ "$argument" = version ] || [ "$argument" = -v ] || [ "$argument" = --version ]; then
+    echo "$VERSION"
+  elif [ "$argument" = help ] || [ "$argument" = -h ] || [ "$argument" = --help ]; then
+    print_help
+  else
+    echo "Use 'tori help' for usage instructions"
+  fi
+}
+
+read_config_paths() {
+  TORI_ROOT="$(grep -i '^tori_root' "$CONFIG_ROOT/tori.conf" \
+    | cut -d '=' -f 2 | xargs \
+    | sed "s*~*$HOME*" | sed "s*\$HOME*$HOME*g" \
+  )"
+  [ -n "$DEBUG" ] && echo "TORI_ROOT: $TORI_ROOT"
+}
+
+main "$1" "$2"

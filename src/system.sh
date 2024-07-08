@@ -6,8 +6,8 @@ get_operating_system() {
 		/etc/os-release | grep '^ID=' | sed 's/ID=//')"
 
 	log debug "uname OS: $uname_output"
-	log debug "os-release OS name: $os_release_name"
-	log debug "os-release OS ID: $os_release_id"
+	log debug "os-release name: $os_release_name"
+	log debug "os-release ID: $os_release_id"
 
 	if [ "$os_release_name" = FreeBSD ]; then
 		echo "FreeBSD"
