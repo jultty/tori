@@ -2,7 +2,7 @@
 
 main() {
   # paths
-  VERSION="0.1.0 2024-07-07"
+  VERSION="0.1.1 2024-07-07"
   TORI_ROOT="$HOME/.local/share/tori"
   CONFIG_ROOT="$HOME/.config/tori"
   TMP_DIR="/tmp/tori"
@@ -63,7 +63,6 @@ check_core_paths() {
     echo "No valid tori installation found at $TORI_ROOT"
     exit 1
   fi
-
 
   [ -n "$DEBUG" ] && echo "TORI_ROOT: $TORI_ROOT"
 }
