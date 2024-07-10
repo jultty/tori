@@ -30,7 +30,9 @@ Configuration values must _not_ contain the character `*`.
 
 tori will read the `packages` file and check if it matches the currently installed packages. If it does not match, it will ask you how to proceed.
 
-If you would prefer not to be asked how to proceed, you can configure a default action to be taken for package mismatch resolution.
+If you would prefer not to be asked how to proceed, you can configure a default action to be taken for package lists conflict resolution.
+
+The application only concerns itself with manually installed packages. Any dependencies pulled automatically should not be added to the removal list. This is done by querying your package manager specifically for a list of manually installed packages.
 
 ## Base files
 

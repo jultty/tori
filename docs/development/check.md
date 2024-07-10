@@ -9,7 +9,7 @@ The second task is accomplished by resorting to the package management functions
 
 Through the parsed `packages` configuration file at the root of the configuration directory (`~/.config/tori/packages` by default), both package lists are sorted and deduplicated before they can be filtered by each other using `grep` inverted matching.
 
-This allows obtaining both differences and displaying them to the user. If no resolution strategy has been configured or passed through the command line interface, several options are displayed:
+This allows obtaining both differences and displaying them to the user. If no conflict resolution strategy has been configured or passed through the command line interface, several options are displayed:
 
 1. Install/uninstall all
 2. Enter packages to install/uninstall 

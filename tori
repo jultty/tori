@@ -2,7 +2,7 @@
 
 main() {
   # paths
-  VERSION="0.1.1 2024-07-07"
+  VERSION="0.2.1 2024-07-10"
   TORI_ROOT="$HOME/.local/share/tori"
   CONFIG_ROOT="$HOME/.config/tori"
   TMP_DIR="/tmp/tori"
