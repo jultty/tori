@@ -39,3 +39,7 @@ scan_packages() {
     resolve_packages
   fi
 }
+
+get_user_packages() {
+  cat "$CONFIG_ROOT/packages" | sort | uniq
+}

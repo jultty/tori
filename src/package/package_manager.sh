@@ -1,9 +1,3 @@
-# package management functions
-
-get_user_packages() {
-  cat $CONFIG_ROOT/packages | sort | uniq
-}
-
 package_manager() {
   local command="$1"
   local output
