@@ -25,15 +25,15 @@ scan_packages() {
     return 1
   fi
 
-  system_packages="$(get_system_packages)"
+  system_packages="$(package_manager get_manually_installed)"
   user_packages="$(get_user_packages)"
 
   if [ "$system_packages" = "$user_packages" ]; then
     log debug "packages match"
   else
     log debug "packages mismatch"
-    log debug "system: $system_packages"
-    log debug "user: $user_packages"
+    log debug "system:\n$system_packages"
+    log debug "user:\n$user_packages"
 
     log user "System and configuration packages differ"
     resolve_packages
