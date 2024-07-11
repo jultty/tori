@@ -1,53 +1,88 @@
 resolve_packages() {
   local strategy=
+  local input_packages=
 
-  echo "$system_packages" > "$TMP_DIR/system_packages"
-  echo "$user_packages" > "$TMP_DIR/user_packages"
+  # shellcheck disable=SC2154
+  ( echo "$system_packages" > "$TMP_DIR/system_packages"
+    echo "$user_packages" > "$TMP_DIR/user_packages" )
 
-  local not_on_configuration="$(grep -v -x -f "$TMP_DIR/user_packages" "$TMP_DIR/system_packages" | xargs)"
-  local not_installed=$(grep -v -x -f "$TMP_DIR/system_packages" "$TMP_DIR/user_packages" | xargs)
+  local packages_not_on_configuration="$(grep -v -x -f \
+    "$TMP_DIR/user_packages" "$TMP_DIR/system_packages" | xargs)"
 
-  if [ -n "$not_on_configuration" ]; then
-
-    printf "\nInstalled packages not on configuration: %s\n" "$not_on_configuration"
-    echo "  [1] Uninstall all"
-    echo "  [2] Enter packages to uninstall"
-    echo "  [3] Add all to configuration"
-    echo "  [4] Enter packages to add to configuration"
-    echo "  [5] Decide on editor"
-    echo "  [6] Cancel"
-
-    read -r -p "Choose an option [1-6]: " strategy
-    log debug "Input: strategy = $strategy"
-
-    if [ -z "$strategy" ] || [ "$strategy" -eq 6 ]; then
-      log debug "[resolve_packages] User choice: Cancel or empty"
-    elif [ "$strategy" = 1 ]; then
-      package_manager uninstall "$not_on_configuration"
-    else
-      log debug "[resolve_packages] Unexpected input: $strategy"
-    fi
+  if [ -n "$packages_not_on_configuration" ]; then
+    not_on_configuration_dialog "$packages_not_on_configuration"
   fi
 
-  if [ -n "$not_installed" ]; then
+  local packages_not_installed=$(grep -v -x -f \
+    "$TMP_DIR/system_packages" "$TMP_DIR/user_packages" | xargs)
 
-    printf "\nPackages on configuration but not installed: %s\n" "$not_installed"
-    echo "  [1] Install all"
-    echo "  [2] Enter packages to install"
-    echo "  [3] Remove all from configuration"
-    echo "  [4] Enter packages to remove from configuration"
-    echo "  [5] Decide on editor"
-    echo "  [6] Cancel"
+  if [ -n "$packages_not_installed" ]; then
+    not_installed_dialog "$packages_not_installed"
+  fi
+}
 
-    read -r -p "Choose an option [1-6]: " strategy
-    log debug "Input: strategy = $strategy"
+not_on_configuration_dialog() {
+  local conflicted_packages="$1"
+  local input_packages=
 
-    if [ -z "$strategy" ] || [ "$strategy" -eq 6 ]; then
-      log debug "[resolve_packages] User choice: Cancel or empty"
-    elif [ "$strategy" -eq 1 ]; then
-      package_manager install "$not_installed"
+  printf "\nInstalled packages not on configuration: %s\n" "$conflicted_packages"
+  echo "  [1] Uninstall all"
+  echo "  [2] Enter packages to uninstall"
+  echo "  [3] Add all to configuration"
+  echo "  [4] Enter packages to add to configuration"
+  echo "  [5] Decide on editor"
+  echo "  [6] Cancel"
+
+  read -r -p "Choose an option [1-6]: " strategy
+  log debug "Input: strategy = $strategy"
+
+  if [ "$strategy" = 6 ]; then
+    log debug "[resolve_packages] User choice: Cancel or empty"
+  elif [ "$strategy" = 1 ]; then
+    package_manager uninstall "$conflicted_packages"
+  elif [ "$strategy" = 2 ]; then
+    read -r -p "Enter packages to uninstall separated by spaces: " input_packages
+    log debug "Input: input_packages = $input_packages"
+    if validate_input_packages "$input_packages"; then
+      package_manager uninstall "$input_packages"
     else
-      log debug "[resolve_packages] Unexpected input: $strategy"
+      not_on_configuration_dialog "$conflicted_packages"
     fi
+  else
+    log debug "[resolve_packages] Unexpected input: $strategy"
+    not_on_configuration_dialog "$conflicted_packages"
+  fi
+}
+
+not_installed_dialog() {
+  local conflicted_packages="$1"
+  local input_packages=
+
+  printf "\nPackages on configuration but not installed: %s\n" "$conflicted_packages"
+  echo "  [1] Install all"
+  echo "  [2] Enter packages to install"
+  echo "  [3] Remove all from configuration"
+  echo "  [4] Enter packages to remove from configuration"
+  echo "  [5] Decide on editor"
+  echo "  [6] Cancel"
+
+  read -r -p "Choose an option [1-6]: " strategy
+  log debug "Input: strategy = $strategy"
+
+  if [ "$strategy" = 6 ]; then
+    log debug "[resolve_packages] User choice: Cancel or empty"
+  elif [ "$strategy" = 1 ]; then
+    package_manager install "$conflicted_packages"
+  elif [ "$strategy" = 2 ]; then
+    read -r -p "Enter packages to install separated by spaces: " input_packages
+    log debug "Input: input_packages = $input_packages"
+    if validate_input_packages "$input_packages"; then
+      package_manager install "$input_packages"
+    else
+      not_on_configuration_dialog "$conflicted_packages"
+    fi
+  else
+    log debug "[resolve_packages] Unexpected input: $strategy"
+    not_installed_dialog "$conflicted_packages"
   fi
 }
