@@ -34,7 +34,6 @@ main() {
 
   # startup checks
   prepare_directories
-  update_package_cache
 
   # entry point
 
