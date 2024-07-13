@@ -44,5 +44,5 @@ print_help() {
   printf "\n"
   printf "\tversion\t\tprint current version with release date\n"
   printf "\thelp\t\tshow this help text\n"
-  printf "\n  See 'man tori' or https://brew.bsd.cafe/jutty/tori for more\n\n"
+  printf "\n  See 'man tori' or https://tori.jutty.dev/docs for more help\n\n"
 }
