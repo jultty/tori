@@ -45,19 +45,23 @@ not_on_configuration_dialog() {
     log debug "Input: input_packages = $input_packages"
     if validate_input_packages "$input_packages"; then
       package_manager uninstall "$input_packages"
-    else
-      not_on_configuration_dialog "$conflicted_packages"
     fi
   elif [ "$strategy" = 3 ]; then
-    track_packages "$conflicted_packages"
+    if validate_input_packages "$conflicted_packages"; then
+      track_packages "$conflicted_packages"
+    fi
   elif [ "$strategy" = 4 ]; then
     read -r -p "Enter space-separated packages to add to the configuation: " input_packages
     log debug "Input: input_packages = $input_packages"
-    track_packages "$input_packages"
+    if validate_input_packages "$input_packages"; then
+      track_packages "$input_packages"
+    fi
   else
     log debug "[resolve_packages] Unexpected input: $strategy"
     not_on_configuration_dialog "$conflicted_packages"
   fi
+
+  check
 }
 
 not_installed_dialog() {
@@ -84,8 +88,6 @@ not_installed_dialog() {
     log debug "Input: input_packages = $input_packages"
     if validate_input_packages "$input_packages"; then
       package_manager install "$input_packages"
-    else
-      not_on_configuration_dialog "$conflicted_packages"
     fi
   elif [ "$strategy" = 3 ]; then
     untrack_packages "$conflicted_packages"
@@ -97,4 +99,6 @@ not_installed_dialog() {
     log debug "[resolve_packages] Unexpected input: $strategy"
     not_installed_dialog "$conflicted_packages"
   fi
+
+  check
 }
