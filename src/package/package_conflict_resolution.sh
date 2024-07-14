@@ -38,6 +38,7 @@ not_on_configuration_dialog() {
 
   if [ "$strategy" = 6 ]; then
     log debug "[resolve_packages] User choice: Cancel or empty"
+    return 0
   elif [ "$strategy" = 1 ]; then
     package_manager uninstall "$conflicted_packages"
   elif [ "$strategy" = 2 ]; then
@@ -81,6 +82,7 @@ not_installed_dialog() {
 
   if [ "$strategy" = 6 ]; then
     log debug "[resolve_packages] User choice: Cancel or empty"
+    return 0
   elif [ "$strategy" = 1 ]; then
     package_manager install "$conflicted_packages"
   elif [ "$strategy" = 2 ]; then
