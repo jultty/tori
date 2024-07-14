@@ -1,6 +1,5 @@
 package_manager() {
   local command="$1"
-  local output
 
   local manager
   local authorizer="sudo"
