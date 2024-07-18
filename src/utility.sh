@@ -16,9 +16,21 @@ log() {
 set_opts() {
   sign="$1"
 
-  set "${sign}o" errexit
-  set "${sign}o" nounset
-  set "${sign}o" pipefail
+  set_opt() {
+    local opt="$1"
+
+    if set -o | grep -q "^$opt[[:space:]]"; then
+      set "${sign}o" "$opt"
+      log debug "[set_opts] Set: $(set -o | grep -q "^$opt[[:space:]]")"
+    else
+      log fatal "Unsupported shell: no $opt option support"
+      return 1
+    fi
+  }
+
+  set_opt errexit
+  set_opt nounset
+  set_opt pipefail
 }
 
 prepare_directories() {
