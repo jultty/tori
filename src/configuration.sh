@@ -29,12 +29,8 @@ scan_packages() {
   user_packages="$(get_user_packages)"
 
   if [ "$system_packages" = "$user_packages" ]; then
-    log debug "packages match"
+    log debug "Packages match"
   else
-    log debug "packages mismatch"
-    log debug "system:\n$system_packages"
-    log debug "user:\n$user_packages"
-
     log user "System and configuration packages differ"
     resolve_packages
   fi

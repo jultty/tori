@@ -11,6 +11,7 @@ main() {
   # os-independent state
 
   DEBUG=$DEBUG
+  DEBUG_DISABLED_WARNING=
 
   ## user input
   argument="$1"
