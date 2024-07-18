@@ -44,7 +44,17 @@ log() {
 }
 
 set_opts() {
-  sign="$1"
+  local target="$1"
+  local sign=
+
+  if [ "$target" = on ]; then
+    sign='-'
+  elif [ "$target" = off ]; then
+    sign='+'
+  else
+    log fatal "Invalid set_opts target: $target. Expected on or off"
+    return 1
+  fi
 
   set_opt() {
     local opt="$1"

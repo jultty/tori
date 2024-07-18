@@ -1,7 +1,7 @@
 update_package_cache() {
-  set_opts +
+  set_opts off
   local argument="$1"
-  set_opts -
+  set_opts on
 
   if [ -f "$PACKAGE_CACHE" ]; then
     local last_update="$(date -r "$PACKAGE_CACHE" +%Y-%m-%d)"

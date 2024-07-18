@@ -21,7 +21,7 @@ main() {
 
   check_core_paths
   . "$TORI_ROOT/src/index.sh"
-  set_opts -
+  set_opts on
 
   ## os-dependent state
   OS="$(get_operating_system)"
