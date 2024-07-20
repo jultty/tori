@@ -1,9 +1,13 @@
-0.4.1 2024-07-14: Fixes "Cancel" option not exiting on package resolution
-                  Fixes whitespace preventing package list matches on "remove all"
+0.5.0 2024-07-18: "Decide in editor" package conflict resolution strategy
+                  Drop pipefail shell option for dash compatibility
+                  Add numerical debug levels to the log utility function
+                  Check for shell option support before setting
+0.4.1 2024-07-14: Fix "Cancel" option not exiting on package resolution
+                  Fix whitespace preventing package list matches on "remove all"
 0.4.0 2024-07-14: "Add/remove all from configuration" resolution strategy
 0.3.1 2024-07-13: Refactor, new docs page, make cache refresh lazier
 0.3.0 2024-07-11: "Enter packages to install/uninstall" resolution strategy
 0.2.1 2024-07-10: Rename package_resolution.sh, document package conflicts
 0.2.0 2024-07-10: Implement "uninstall/instal all" package resolution strategies
 0.1.1 2024-07-07: Handle missing tori.conf and invalid installation root path
-0.1.0 2024-07-07: Added configuration parsing
+0.1.0 2024-07-07: Add configuration parsing

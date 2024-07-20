@@ -8,9 +8,9 @@ package_manager() {
   local args__get_manually_installed
   local args__get_available
 
-  set_opts +
+  set_opts off
   local args__user_args="$2"
-  set_opts -
+  set_opts on
 
   if [ "$OS" = "FreeBSD" ]; then
     manager="pkg"

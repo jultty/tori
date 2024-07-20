@@ -2,31 +2,31 @@
 
 main() {
   # paths
-  VERSION="0.4.1 2024-07-14"
+  VERSION="0.5.0 2024-07-18"
   TORI_ROOT="$HOME/.local/share/tori"
   CONFIG_ROOT="$HOME/.config/tori"
   TMP_DIR="/tmp/tori"
   CACHE_DIR="$HOME/.cache/tori"
 
-  check_core_paths
-
-  . "$TORI_ROOT/src/index.sh"
-
-  # state
+  # os-independent state
 
   DEBUG=$DEBUG
+  DEBUG_DISABLED_WARNING=
 
   ## user input
   argument="$1"
   parameter="$2"
 
-  set_opts -
+  # import source
 
-  ## global constants
+  check_core_paths
+  . "$TORI_ROOT/src/index.sh"
+  set_opts on
+
+  ## os-dependent state
   OS="$(get_operating_system)"
   PACKAGE_CACHE="$CACHE_DIR/${OS}_packages.cache"
 
-  ## global state
   base_files=
   bkp_files=
   user_packages=
@@ -69,7 +69,6 @@ check_core_paths() {
     exit 1
   fi
 
-  [ -n "$DEBUG" ] && echo "TORI_ROOT: $TORI_ROOT"
 }
 
 main "$1" "$2"
