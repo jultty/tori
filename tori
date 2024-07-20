@@ -69,7 +69,6 @@ check_core_paths() {
     exit 1
   fi
 
-  [ -n "$DEBUG" ] && echo "TORI_ROOT: $TORI_ROOT"
 }
 
 main "$1" "$2"
