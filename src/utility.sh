@@ -5,11 +5,11 @@ log() {
   local message="$2"
 
   print_user_message() {
-    echo "[tori] $(date "+%H:%M:%S"): $1" 1>&2
+    printf "%b\n" "[tori] $(date "+%H:%M:%S"): $1" 1>&2
   }
 
   print_debug_message() {
-    echo "$(date "+%H:%M:%N") $1" 1>&2
+    printf "%b\n" "$(date "+%H:%M:%N") $1" 1>&2
   }
 
   if [ -z "$DEBUG" ]; then
@@ -41,6 +41,39 @@ log() {
   elif [ "$DEBUG" -ge 5 ] && [ "$level" = debug ]; then
     print_debug_message "$message"
   fi
+}
+
+confirm() {
+  local question="$1"
+  local answer=
+  read -rp "$question [y/N] " answer
+
+  if [ "$answer" == y ] || [ "$answer" == Y ]; then
+    return 0;
+  else
+    return 1;
+  fi
+}
+
+ask() {
+  local question="$1"
+  local options="$2"
+  local answer=
+  local options_count=0
+  local dialog_options=
+
+  local IFS=,
+  for option in $options; do
+    _=$((options_count+=1))
+    dialog_options="$dialog_options\n [$options_count] $option"
+  done;
+  IFS=
+
+  printf "%s" "$question" >&2
+  printf "%b" "$dialog_options" >&2
+  printf "\n%s" "Choose an option [1-$options_count] " >&2
+  read -r answer
+  echo "$answer"
 }
 
 set_opts() {
