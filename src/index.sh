@@ -9,3 +9,5 @@
 . "$TORI_ROOT/src/package/validate_input_packages.sh"
 . "$TORI_ROOT/src/package/package_conflict_input_parser.sh"
 . "$TORI_ROOT/src/package/update_package_cache.sh"
+
+. "$TORI_ROOT/src/file/merge_base.sh"

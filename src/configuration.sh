@@ -15,7 +15,7 @@ scan_directory() {
     done
   fi
 
-  echo "$files"
+  printf "%b" "$files"
 }
 
 scan_packages() {
