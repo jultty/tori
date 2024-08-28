@@ -72,8 +72,15 @@ ask() {
   printf "%s" "$question" >&2
   printf "%b" "$dialog_options" >&2
   printf "\n%s" "Choose an option [1-$options_count] " >&2
-  read -r answer
-  echo "$answer"
+  read -r read_answer
+  answer="$(echo "$read_answer" | xargs)"
+
+  if [ "$answer" -gt 0 ] 2> /dev/null && [ "$answer" -le $options_count ]; then
+    echo "$answer"
+  else
+    log debug "[ask] Invalid choice"
+    return 1
+  fi
 }
 
 set_opts() {
