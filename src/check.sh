@@ -6,5 +6,5 @@ check() {
   log debug "collected bkp files:\n$bkp_files"
 
   scan_packages
-  merge_base "$base_files"
+  merge_files "$base_files"
 }

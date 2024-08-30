@@ -83,6 +83,10 @@ ask() {
   fi
 }
 
+tildify() {
+  echo "$1" | sed "s*$HOME*~*"
+}
+
 set_opts() {
   local target="$1"
   local sign=
