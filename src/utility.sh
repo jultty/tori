@@ -68,14 +68,15 @@ ask() {
     dialog_options="$dialog_options\n [$options_count] $option"
   done;
   IFS=
+  dialog_options="$dialog_options\n [0] Exit"
 
   printf "%s" "$question" >&2
   printf "%b" "$dialog_options" >&2
-  printf "\n%s" "Choose an option [1-$options_count] " >&2
+  printf "\n%s" "Choose an option number: " >&2
   read -r read_answer
   answer="$(echo "$read_answer" | xargs)"
 
-  if [ "$answer" -gt 0 ] 2> /dev/null && [ "$answer" -le $options_count ]; then
+  if [ "$answer" -ge 0 ] 2> /dev/null && [ "$answer" -le $options_count ]; then
     echo "$answer"
   else
     log debug "[ask] Invalid choice"
