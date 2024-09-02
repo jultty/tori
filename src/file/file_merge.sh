@@ -53,9 +53,11 @@ file_merge_tree() {
       if [ "$strategy" -eq 0 ]; then
         return 0
       elif [ "$strategy" -eq 1 ]; then
+        backup_paths "$absolute_path"
         cp -vi "$config_path" "$absolute_path"
         return 1
       elif [ "$strategy" -eq 2 ]; then
+        backup_paths "$config_path"
         cp -vi "$absolute_path" "$config_path"
         return 1
       elif [ "$strategy" -eq 3 ]; then

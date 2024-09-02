@@ -134,6 +134,12 @@ prepare_directories() {
 
   if ! [ -d "$BACKUP_ROOT" ]; then
     mkdir -p "$BACKUP_ROOT"
+    if ! [ -d "$BACKUP_ROOT/canonical" ]; then
+      mkdir "$BACKUP_ROOT/canonical"
+    fi
+    if ! [ -d "$BACKUP_ROOT/ephemeral" ]; then
+      mkdir "$BACKUP_ROOT/ephemeral"
+    fi
   fi
 
   if ! [ -d "$CONFIG_ROOT" ]; then
