@@ -76,10 +76,15 @@ ask() {
   read -r read_answer
   answer="$(echo "$read_answer" | xargs)"
 
-  if [ "$answer" -ge 0 ] 2> /dev/null && [ "$answer" -le $options_count ]; then
+  if [ -z "$answer" ]; then
+    log info "[ask] Invalid choice"
+    echo -1
+    return 1
+  elif [ "$answer" -ge 0 ] 2> /dev/null && [ "$answer" -le $options_count ]; then
     echo "$answer"
   else
-    log debug "[ask] Invalid choice"
+    log info "[ask] Invalid choice"
+    echo -1
     return 1
   fi
 }

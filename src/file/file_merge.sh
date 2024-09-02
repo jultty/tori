@@ -47,8 +47,7 @@ file_merge_tree() {
         local prompt_verb="In configuration only"
         local prompt_options="Copy to system"
       fi
-      strategy="$(ask "$prompt_verb: $(tildify "$absolute_path")" "$prompt_options")" ||
-        file_merge_tree "$base_files"
+      strategy="$(ask "$prompt_verb: $(tildify "$absolute_path")" "$prompt_options")"
       log debug "[merge_tree] Chosen strategy: $strategy"
 
       if [ "$strategy" -eq 0 ]; then
@@ -65,6 +64,7 @@ file_merge_tree() {
         return 1
       else
         log user 'Invalid choice'
+        return 1
       fi
     fi
   done
