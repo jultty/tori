@@ -124,12 +124,16 @@ set_opts() {
 }
 
 prepare_directories() {
-  if ! [ -d "$TMP_DIR" ]; then
-    mkdir "$TMP_DIR"
+  if ! [ -d "$TMP_ROOT" ]; then
+    mkdir "$TMP_ROOT"
   fi
 
-  if ! [ -d "$CACHE_DIR" ]; then
-    mkdir -p "$CACHE_DIR"
+  if ! [ -d "$CACHE_ROOT" ]; then
+    mkdir -p "$CACHE_ROOT"
+  fi
+
+  if ! [ -d "$BACKUP_ROOT" ]; then
+    mkdir -p "$BACKUP_ROOT"
   fi
 
   if ! [ -d "$CONFIG_ROOT" ]; then

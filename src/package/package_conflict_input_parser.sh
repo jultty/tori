@@ -1,8 +1,8 @@
 package_conflict_input_parser() {
   local packages="$1"
   local conflict_type="$2"
-  local input="$TMP_DIR/package_conflict_input"
-  local input_choices="$TMP_DIR/package_conflict_input_choices"
+  local input="$TMP_ROOT/package_conflict_input"
+  local input_choices="$TMP_ROOT/package_conflict_input_choices"
   local choices=
   local packages_to_install=
   local packages_to_uninstall=
