@@ -54,15 +54,27 @@ file_merge_tree() {
         return 0
       elif [ "$strategy" -eq 1 ]; then
         backup_paths "$absolute_path"
-        cp -vi "$config_path" "$absolute_path"
+        if [ -r "$config_path" ] && [ -w "$absolute_path" ]; then
+          cp -vi "$config_path" "$absolute_path"
+        else
+          $AUTHORIZE_COMMAND cp -vi "$config_path" "$absolute_path"
+        fi
         return 1
       elif [ "$strategy" -eq 2 ]; then
         backup_paths "$config_path"
-        cp -vi "$absolute_path" "$config_path"
+        if [ -r "$absolute_path" ] && [ -w "$config_path" ]; then
+          cp -vi "$absolute_path" "$config_path"
+        else
+          $AUTHORIZE_COMMAND cp -vi "$absolute_path" "$config_path"
+        fi
         return 1
       elif [ "$strategy" -eq 3 ]; then
         echo "< $(tildify "$absolute_path") | $(echo "$config_path" | sed "s*$CONFIG_ROOT/**") >"
-        diff "$absolute_path" "$config_path"
+        if [ -r "$absolute_path" ] && [ -r "$config_path" ]; then
+          diff "$absolute_path" "$config_path"
+        else
+          $AUTHORIZE_COMMAND diff "$absolute_path" "$config_path"
+        fi
         return 1
       else
         log user 'Invalid choice'
