@@ -1,3 +1,7 @@
+0.6.0 2024-09-03: File management with the tree strategy
+									File backups
+                  Extract authorization command to top level
+                  ask and tildify utility functions
 0.5.0 2024-07-18: "Decide in editor" package conflict resolution strategy
                   Drop pipefail shell option for dash compatibility
                   Add numerical debug levels to the log utility function

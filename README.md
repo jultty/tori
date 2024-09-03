@@ -2,7 +2,7 @@
 
 tori is a tool to track your personal systems' configurations and replicate them.
 
-If you'd like a more detailed description of what it is, its purpose, origins and goals, see the [announcement blog post](https://blog.jutty.dev/posts/introducing-tori.html).
+If you'd like a more detailed description of what it is, its purpose, origins and goals, see the [announcement blog post](https://blog.jutty.dev/posts/introducing-tori/).
 
 Refer to the [project website](https://tori.jutty.dev) for updates and access to [documentation](https://tori.jutty.dev/docs).
 
