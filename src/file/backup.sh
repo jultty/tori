@@ -1,4 +1,4 @@
-# takes a list of space-separated absolute paths 
+# takes a list of newline-separated absolute paths 
 # backs each path up, creating canonical or ephemeral copies as needed
 backup_paths() {
   local paths="$1"
@@ -15,14 +15,26 @@ backup_paths() {
       mkdir -p "$(dirname "$ephemeral_path")"
       if [ -f "$ephemeral_path" ]; then
         log debug "[backup] Overwriting ephemeral copy for $path"
-        cp -f "$path" "$ephemeral_path"
+        if [ -r "$path" ]; then
+          cp -f "$path" "$ephemeral_path"
+        else
+          $AUTHORIZE_COMMAND cp -f "$path" "$ephemeral_path"
+        fi
       else
-        cp "$path" "$ephemeral_path"
+        if [ -r "$path" ]; then
+          cp "$path" "$ephemeral_path"
+        else
+          $AUTHORIZE_COMMAND cp "$path" "$ephemeral_path"
+        fi
       fi
     else
       log debug "[backup] Creating canonical copy for $path"
       mkdir -p "$(dirname "$canonical_path")"
-      cp "$path" "$canonical_path"
+      if [ -r "$path" ]; then
+        cp "$path" "$canonical_path"
+      else
+        $AUTHORIZE_COMMAND cp "$path" "$canonical_path"
+      fi
     fi
   done
 }

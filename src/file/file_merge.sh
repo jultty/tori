@@ -28,7 +28,7 @@ file_scan_tree() {
 
 file_merge_tree() {
   local base_files="$1"
-  local strategy=
+  local overwrite_choice=
 
   for file in $base_files; do
     log debug "[merge_tree] Processing $file"
@@ -47,12 +47,12 @@ file_merge_tree() {
         local prompt_verb="In configuration only"
         local prompt_options="Copy to system"
       fi
-      strategy="$(ask "$prompt_verb: $(tildify "$absolute_path")" "$prompt_options")"
-      log debug "[merge_tree] Chosen strategy: $strategy"
+      overwrite_choice="$(ask "$prompt_verb: $(tildify "$absolute_path")" "$prompt_options")"
+      log debug "[merge_tree] Overwrite choice: $overwrite_choice"
 
-      if [ "$strategy" -eq 0 ]; then
+      if [ "$overwrite_choice" -eq 0 ]; then
         return 0
-      elif [ "$strategy" -eq 1 ]; then
+      elif [ "$overwrite_choice" -eq 1 ]; then
         backup_paths "$absolute_path"
         if [ -r "$config_path" ] && [ -w "$absolute_path" ]; then
           cp -vi "$config_path" "$absolute_path"
@@ -60,7 +60,7 @@ file_merge_tree() {
           $AUTHORIZE_COMMAND cp -vi "$config_path" "$absolute_path"
         fi
         return 1
-      elif [ "$strategy" -eq 2 ]; then
+      elif [ "$overwrite_choice" -eq 2 ]; then
         backup_paths "$config_path"
         if [ -r "$absolute_path" ] && [ -w "$config_path" ]; then
           cp -vi "$absolute_path" "$config_path"
@@ -68,7 +68,7 @@ file_merge_tree() {
           $AUTHORIZE_COMMAND cp -vi "$absolute_path" "$config_path"
         fi
         return 1
-      elif [ "$strategy" -eq 3 ]; then
+      elif [ "$overwrite_choice" -eq 3 ]; then
         echo "< $(tildify "$absolute_path") | $(echo "$config_path" | sed "s*$CONFIG_ROOT/**") >"
         if [ -r "$absolute_path" ] && [ -r "$config_path" ]; then
           diff "$absolute_path" "$config_path"
