@@ -2,7 +2,6 @@ package_manager() {
   local command="$1"
 
   local manager
-  local authorizer="sudo"
   local args__install
   local args__uninstall
   local args__get_manually_installed
@@ -25,11 +24,11 @@ package_manager() {
   if [ "$command" = 'get_manually_installed' ]; then
     eval $manager "$args__get_manually_installed"
   elif [ "$command" = 'install' ]; then
-    $authorizer $manager $args__install $args__user_args
+    $AUTHORIZE_COMMAND $manager $args__install $args__user_args
   elif [ "$command" = 'uninstall' ]; then
-    $authorizer $manager $args__uninstall $args__user_args
+    $AUTHORIZE_COMMAND $manager $args__uninstall $args__user_args
   elif [ "$command" = 'update' ]; then
-    $authorizer $manager $args__update
+    $AUTHORIZE_COMMAND $manager $args__update
   elif [ "$command" = 'get_available' ]; then
     eval $manager "$args__get_available"
   else
