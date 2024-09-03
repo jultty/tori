@@ -3,18 +3,18 @@ resolve_packages() {
   local input_packages=
 
   # shellcheck disable=SC2154
-  ( echo "$system_packages" > "$TMP_DIR/system_packages"
-    echo "$user_packages" > "$TMP_DIR/user_packages" )
+  ( echo "$system_packages" > "$TMP_ROOT/system_packages"
+    echo "$user_packages" > "$TMP_ROOT/user_packages" )
 
   local packages_not_on_configuration="$(grep -v -x -f \
-    "$TMP_DIR/user_packages" "$TMP_DIR/system_packages" | xargs)"
+    "$TMP_ROOT/user_packages" "$TMP_ROOT/system_packages" | xargs)"
 
   if [ -n "$packages_not_on_configuration" ]; then
     not_on_configuration_dialog "$packages_not_on_configuration"
   fi
 
   local packages_not_installed=$(grep -v -x -f \
-    "$TMP_DIR/system_packages" "$TMP_DIR/user_packages" | xargs)
+    "$TMP_ROOT/system_packages" "$TMP_ROOT/user_packages" | xargs)
 
   if [ -n "$packages_not_installed" ]; then
     not_installed_dialog "$packages_not_installed"

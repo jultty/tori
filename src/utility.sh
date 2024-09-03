@@ -5,11 +5,11 @@ log() {
   local message="$2"
 
   print_user_message() {
-    echo "[tori] $(date "+%H:%M:%S"): $1" 1>&2
+    printf "%b\n" "[tori] $(date "+%H:%M:%S"): $1" 1>&2
   }
 
   print_debug_message() {
-    echo "$(date "+%H:%M:%N") $1" 1>&2
+    printf "%b\n" "$(date "+%H:%M:%N") $1" 1>&2
   }
 
   if [ -z "$DEBUG" ]; then
@@ -43,6 +43,56 @@ log() {
   fi
 }
 
+confirm() {
+  local question="$1"
+  local answer=
+  read -rp "$question [y/N] " answer
+
+  if [ "$answer" == y ] || [ "$answer" == Y ]; then
+    return 0;
+  else
+    return 1;
+  fi
+}
+
+ask() {
+  local question="$1"
+  local options="$2"
+  local answer=
+  local options_count=0
+  local dialog_options=
+
+  local IFS=,
+  for option in $options; do
+    _=$((options_count+=1))
+    dialog_options="$dialog_options\n [$options_count] $option"
+  done;
+  IFS=
+  dialog_options="$dialog_options\n [0] Exit"
+
+  printf "%s" "$question" >&2
+  printf "%b" "$dialog_options" >&2
+  printf "\n%s" "Choose an option number: " >&2
+  read -r read_answer
+  answer="$(echo "$read_answer" | xargs)"
+
+  if [ -z "$answer" ]; then
+    log info "[ask] Invalid choice"
+    echo -1
+    return 1
+  elif [ "$answer" -ge 0 ] 2> /dev/null && [ "$answer" -le $options_count ]; then
+    echo "$answer"
+  else
+    log info "[ask] Invalid choice"
+    echo -1
+    return 1
+  fi
+}
+
+tildify() {
+  echo "$1" | sed "s*$HOME*~*"
+}
+
 set_opts() {
   local target="$1"
   local sign=
@@ -74,12 +124,22 @@ set_opts() {
 }
 
 prepare_directories() {
-  if ! [ -d "$TMP_DIR" ]; then
-    mkdir "$TMP_DIR"
+  if ! [ -d "$TMP_ROOT" ]; then
+    mkdir "$TMP_ROOT"
   fi
 
-  if ! [ -d "$CACHE_DIR" ]; then
-    mkdir -p "$CACHE_DIR"
+  if ! [ -d "$CACHE_ROOT" ]; then
+    mkdir -p "$CACHE_ROOT"
+  fi
+
+  if ! [ -d "$BACKUP_ROOT" ]; then
+    mkdir -p "$BACKUP_ROOT"
+    if ! [ -d "$BACKUP_ROOT/canonical" ]; then
+      mkdir "$BACKUP_ROOT/canonical"
+    fi
+    if ! [ -d "$BACKUP_ROOT/ephemeral" ]; then
+      mkdir "$BACKUP_ROOT/ephemeral"
+    fi
   fi
 
   if ! [ -d "$CONFIG_ROOT" ]; then

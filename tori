@@ -2,11 +2,12 @@
 
 main() {
   # paths
-  VERSION="0.5.0 2024-07-18"
+  VERSION="0.6.0 2024-09-03"
   TORI_ROOT="$HOME/.local/share/tori"
   CONFIG_ROOT="$HOME/.config/tori"
-  TMP_DIR="/tmp/tori"
-  CACHE_DIR="$HOME/.cache/tori"
+  BACKUP_ROOT="$HOME/.local/state/tori/backup"
+  TMP_ROOT="/tmp/tori"
+  CACHE_ROOT="$HOME/.cache/tori"
 
   # os-independent state
 
@@ -18,14 +19,14 @@ main() {
   parameter="$2"
 
   # import source
-
   check_core_paths
   . "$TORI_ROOT/src/index.sh"
-  set_opts on
 
   ## os-dependent state
+  set_opts on
   OS="$(get_operating_system)"
-  PACKAGE_CACHE="$CACHE_DIR/${OS}_packages.cache"
+  PACKAGE_CACHE="$CACHE_ROOT/${OS}_packages.cache"
+  AUTHORIZE_COMMAND="sudo"
 
   base_files=
   bkp_files=
