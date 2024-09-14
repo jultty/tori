@@ -14,6 +14,7 @@ package_manager() {
   if [ "$OS" = "FreeBSD" ]; then
     manager="pkg"
     args__get_manually_installed='query -e "%a = 0" "%n"'
+    args__get_status='' # TODO
     args__install='install'
     args__uninstall='delete'
     args__update='update'
@@ -23,6 +24,8 @@ package_manager() {
   # shellcheck disable=SC2086
   if [ "$command" = 'get_manually_installed' ]; then
     eval $manager "$args__get_manually_installed"
+  elif [ "$command" = 'get_status' ]; then
+    echo unimplemented: eval $manager "$args__get_status" # TODO
   elif [ "$command" = 'install' ]; then
     $AUTHORIZE_COMMAND $manager $args__install $args__user_args
   elif [ "$command" = 'uninstall' ]; then

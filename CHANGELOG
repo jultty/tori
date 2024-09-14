@@ -1,3 +1,4 @@
+0.7.0 2024-09-13: Imperative commands install, uninstall, track and forget
 0.6.0 2024-09-03: File management with the tree strategy
 									File backups
                   Extract authorization command to top level

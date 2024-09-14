@@ -149,9 +149,13 @@ prepare_directories() {
 }
 
 print_help() {
-  printf "\n  tori: configuration managent and system replication tool\n"
+  printf "\n  tori: configuration management and system replication tool\n"
   printf "\n    Options:\n\n"
   printf "\tcheck\t\tcompare configuration to system state\n"
+  printf "\tinstall\t\tinstall packages\n"
+  printf "\tuninstall\tuninstall packages\n"
+  printf "\ttrack\t\tadd a file to your configuration\n"
+  printf "\tforget\t\tremove a file from your configuration\n"
   printf "\tcache\t\trefresh the local package cache\n"
   printf "\n"
   printf "\tversion\t\tprint current version with release date\n"

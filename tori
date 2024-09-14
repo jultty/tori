@@ -2,7 +2,7 @@
 
 main() {
   # paths
-  VERSION="0.6.0 2024-09-03"
+  VERSION="0.7.0 2024-09-13"
   TORI_ROOT="$HOME/.local/share/tori"
   CONFIG_ROOT="$HOME/.config/tori"
   BACKUP_ROOT="$HOME/.local/state/tori/backup"
@@ -15,8 +15,8 @@ main() {
   DEBUG_DISABLED_WARNING=
 
   ## user input
-  argument="$1"
-  parameter="$2"
+  command="$1"
+  argument="$2"
 
   # import source
   check_core_paths
@@ -38,13 +38,33 @@ main() {
 
   # entry point
 
-  if [ "$argument" = check ]; then
+  if [ "$command" = check ] || [ "$command" = c ]; then
     check
-  elif [ "$argument" = cache ]; then
+  elif [ "$command" = install ] || [ "$command" = i ]; then
+      if package_manager install "$argument"; then
+        track_packages "$argument"
+      else
+        log warn "Package installation failed for $argument, no action taken"
+      fi
+  elif [ "$command" = uninstall ] || [ "$command" = u ]; then
+      if package_manager uninstall "$argument"; then
+        if package_manager; then
+          log warn "Package uninstallation failed for $argument, no action taken"
+        else
+          untrack_packages "$argument"
+        fi
+      else
+        log warn "Package uninstallation failed for $argument, no action taken"
+      fi
+  elif [ "$command" = track ] || [ "$command" = t ]; then
+    echo unimplemented: track "$argument" # TODO
+  elif [ "$command" = forget ] || [ "$command" = f ]; then
+    echo unimplemented: untrack "$argument" # TODO
+  elif [ "$command" = cache ]; then
     update_package_cache --force
-  elif [ "$argument" = version ] || [ "$argument" = -v ] || [ "$argument" = --version ]; then
+  elif [ "$command" = version ] || [ "$command" = -v ] || [ "$command" = --version ]; then
     echo "$VERSION"
-  elif [ "$argument" = help ] || [ "$argument" = -h ] || [ "$argument" = --help ]; then
+  elif [ "$command" = help ] || [ "$command" = -h ] || [ "$command" = --help ]; then
     print_help
   else
     echo "Use 'tori help' for usage instructions"
