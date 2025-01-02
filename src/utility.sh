@@ -31,15 +31,15 @@ log() {
   if [ "$level" = user ]; then
     print_user_message "$message"
   elif [ "$DEBUG" -ge 1 ] && [ "$level" = fatal ]; then
-    print_user_message "$message"
+    print_user_message "Fatal: $message"
   elif [ "$DEBUG" -ge 2 ] && [ "$level" = error ]; then
-    print_user_message "$message"
+    print_user_message "Error: $message"
   elif [  "$DEBUG" -ge 3 ] && [ "$level" = warn ]; then
-    print_user_message "$message"
+    print_user_message "Warning: $message"
   elif [ "$DEBUG" -ge 4 ] && [ "$level" = info ]; then
-    print_debug_message "$message"
+    print_debug_message "Info: $message"
   elif [ "$DEBUG" -ge 5 ] && [ "$level" = debug ]; then
-    print_debug_message "$message"
+    print_debug_message "Debug: $message"
   fi
 }
 
