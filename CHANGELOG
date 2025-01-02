@@ -1,5 +1,8 @@
+0.6.1 2025-01-02: Fix regex syntax on DEBUG validation
+                  Drop pipefail from required shell options
+
 0.6.0 2024-09-03: File management with the tree strategy
-									File backups
+                  File backups
                   Extract authorization command to top level
                   ask and tildify utility functions
 0.5.0 2024-07-18: "Decide in editor" package conflict resolution strategy
