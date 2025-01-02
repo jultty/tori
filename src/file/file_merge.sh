@@ -2,7 +2,7 @@ merge_files() {
   local base_files="$1"
   local strategy="${2:-tree}"
 
-  if [ "$strategy" == tree ]; then
+  if [ "$strategy" = tree ]; then
     log info "[merge_files] Merging with $strategy strategy"
     if ! file_scan_tree "$base_files"; then
       if ! file_merge_tree "$base_files"; then
@@ -54,17 +54,19 @@ file_merge_tree() {
         return 0
       elif [ "$overwrite_choice" -eq 1 ]; then
         backup_paths "$absolute_path"
-        if [ -r "$config_path" ] && [ -w "$absolute_path" ]; then
+        if [ -r "$config_path" ] && [ -w "$(dirname "$absolute_path")" ]; then
           cp -vi "$config_path" "$absolute_path"
         else
+          # this assumes the directories exist
           $AUTHORIZE_COMMAND cp -vi "$config_path" "$absolute_path"
         fi
         return 1
       elif [ "$overwrite_choice" -eq 2 ]; then
         backup_paths "$config_path"
-        if [ -r "$absolute_path" ] && [ -w "$config_path" ]; then
+        if [ -r "$absolute_path" ] && [ -w "$(dirname "$config_path")" ]; then
           cp -vi "$absolute_path" "$config_path"
         else
+          # this assumes the directories exist
           $AUTHORIZE_COMMAND cp -vi "$absolute_path" "$config_path"
         fi
         return 1
