@@ -1,3 +1,6 @@
+0.6.2 2025-01-02: Improve handling when permissions lack but file exists
+                  Do not exit if a packages file is not found
+
 0.6.1 2025-01-02: Fix regex syntax on DEBUG validation
                   Drop pipefail from required shell options
 

@@ -22,7 +22,7 @@ scan_packages() {
 
   if ! [ -f "$CONFIG_ROOT/packages" ]; then
     log debug "No packages file found in $CONFIG_ROOT"
-    return 1
+    return 0
   fi
 
   system_packages="$(package_manager get_manually_installed)"
