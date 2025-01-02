@@ -14,7 +14,7 @@ log() {
 
   if [ -z "$DEBUG" ]; then
     DEBUG=3
-  elif ! echo "$DEBUG" | grep -q '^[[:number:]]$'; then
+  elif ! echo "$DEBUG" | grep -q -e '^[[:digit:]]$'; then
     echo "[log] Warning: DEBUG should always be set to a number. Assuming DEBUG=3 (warn)"
     DEBUG=3
   fi
