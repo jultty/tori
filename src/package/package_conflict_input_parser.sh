@@ -9,7 +9,9 @@ package_conflict_input_parser() {
   local packages_to_track=
   local packages_to_untrack=
 
-    help_text_generator "$conflict_type" > "$input"
+  log info "[package_conflict_input_parser] Parsing $packages"
+
+  help_text_generator "$conflict_type" > "$input"
 
   echo "$packages" | sed 's/ /\n/g' | while read -r package; do
     echo "skip $package" >> "$input"
@@ -63,10 +65,10 @@ help_text_generator() {
 
   echo "# Options:"
 
-  if [ "$conflict_type" == not_installed ]; then
+  if [ "$conflict_type" = not_installed ]; then
     echo "#   [i]nstall     Install package to system"
     echo "#   [r]emove      Remove from configuration"
-  elif [ "$conflict_type" == not_on_configuration ]; then
+  elif [ "$conflict_type" = not_on_configuration ]; then
     echo "#   [u]ninstall   Uninstall package from system"
     echo "#   [a]dd         Add to configuration"
   else
@@ -75,6 +77,6 @@ help_text_generator() {
   fi
 
   echo "#   [s]kip        Do not take any action"
-  echo -e "\n# Providing just the value between brackets is sufficient"
-  echo -e "# Replace 'skip' below with the desired option\n"
+  printf "\n# Providing just the value between brackets is sufficient"
+  printf "\n# Replace 'skip' below with the desired option\n"
 }

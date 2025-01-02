@@ -4,6 +4,11 @@ validate_input_packages() {
 
   if [ "$OS" = FreeBSD ]; then
     invalid_characters_pattern='[^A-Za-z0-9\+_\.-]'
+  elif [ "$OS" = Void ]; then
+    invalid_characters_pattern='[^A-Za-z0-9\+_\.-]'
+  else
+    log fatal "No package manager handler for $OS"
+    exit 1
   fi
 
   echo "$package_list" | xargs | sed 's/ /\n/g' | while read -r package; do

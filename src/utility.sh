@@ -48,7 +48,7 @@ confirm() {
   local answer=
   read -rp "$question [y/N] " answer
 
-  if [ "$answer" == y ] || [ "$answer" == Y ]; then
+  if [ "$answer" = y ] || [ "$answer" = Y ]; then
     return 0;
   else
     return 1;
