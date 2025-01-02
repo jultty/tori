@@ -120,7 +120,6 @@ set_opts() {
 
   set_opt errexit
   set_opt nounset
-  set_opt pipefail
 }
 
 prepare_directories() {
