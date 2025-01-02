@@ -12,7 +12,8 @@ untrack_packages() {
   log info "[untrack_packages] Removing packages: $packages"
 
   echo "$packages" | xargs | sed 's/ /\n/g' | while read -r package; do
-    sed -i "/^[[:space:]]*$package[[:space:]]*$/d" "$CONFIG_ROOT/packages"
-    log info "[untrack_packages] Executed removal for $package with exit code $?"
+    updated_packages=$(sed "/^[[:space:]]*$package[[:space:]]*$/d" "$CONFIG_ROOT/packages")
+    echo "$updated_packages" > "$CONFIG_ROOT/packages"
+    log info "[untrack_packages] Executed removal for $package"
   done
 }
