@@ -1,7 +1,7 @@
 get_operating_system() {
 	local uname_output="$(uname -s)"
 	local os_release_name="$(cat \
-		/etc/os-release | grep '^NAME=' | sed 's/NAME=//')"
+		/etc/os-release | grep '^NAME=' | sed 's/NAME=//' | sed 's/"//g')"
 	local os_release_id="$(cat \
 		/etc/os-release | grep '^ID=' | sed 's/ID=//')"
 
@@ -11,6 +11,9 @@ get_operating_system() {
 
 	if [ "$os_release_name" = FreeBSD ]; then
 		echo "FreeBSD"
+		return 0
+	elif [ "$os_release_name" = Void ]; then
+		echo "Void"
 		return 0
 	else
 		log fatal "Unsupported operating system"
