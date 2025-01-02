@@ -1,6 +1,7 @@
 #! /usr/bin/env sh
 
 main() {
+
   # paths
   VERSION="0.6.0 2024-09-03"
   TORI_ROOT="$HOME/.local/share/tori"
@@ -11,7 +12,6 @@ main() {
 
   # os-independent state
 
-  DEBUG=$DEBUG
   DEBUG_DISABLED_WARNING=
 
   ## user input
