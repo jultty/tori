@@ -16,7 +16,7 @@ file_scan_tree() {
   local base_files="$1"
 
   for file in $base_files; do
-    local absolute_path="$(echo "$file" | sed 's/^base//')"
+    local absolute_path=$(echo "$file" | sed 's/^base//')
     local config_path="$CONFIG_ROOT/$file"
 
     if ! diff "$absolute_path" "$config_path" > /dev/null 2>&1; then
@@ -32,7 +32,7 @@ file_merge_tree() {
 
   for file in $base_files; do
     log debug "[merge_tree] Processing $file"
-    local absolute_path="$(echo "$file" | sed 's/^base//')"
+    local absolute_path=$(echo "$file" | sed 's/^base//')
     log debug "[merge_tree] Absolute path: $absolute_path"
     local config_path="$CONFIG_ROOT/$file"
     log debug "[merge_tree] Config path: $config_path"
@@ -47,7 +47,7 @@ file_merge_tree() {
         local prompt_verb="In configuration only"
         local prompt_options="Copy to system"
       fi
-      overwrite_choice="$(ask "$prompt_verb: $(tildify "$absolute_path")" "$prompt_options")"
+      overwrite_choice=$(ask "$prompt_verb: $(tildify "$absolute_path")" "$prompt_options")
       log debug "[merge_tree] Overwrite choice: $overwrite_choice"
 
       if [ "$overwrite_choice" -eq 0 ]; then

@@ -74,7 +74,7 @@ ask() {
   printf "%b" "$dialog_options" >&2
   printf "\n%s" "Choose an option number: " >&2
   read -r read_answer
-  answer="$(echo "$read_answer" | xargs)"
+  answer=$(echo "$read_answer" | xargs)
 
   if [ -z "$answer" ]; then
     log info "[ask] Invalid choice"

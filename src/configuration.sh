@@ -5,12 +5,12 @@ scan_directory() {
   local files=
   local escaped_config_root
 
-  escaped_config_root="$(echo "$CONFIG_ROOT" | sed 's/\//\\\//g')"
+  escaped_config_root=$(echo "$CONFIG_ROOT" | sed 's/\//\\\//g')
 
   if [ -d "$target" ]; then
-    scan="$(find "$target" -type f)"
+    scan=$(find "$target" -type f)
     for line in $scan; do
-      line="$(echo "$line" | sed "s/$escaped_config_root\///")"
+      line=$(echo "$line" | sed "s/$escaped_config_root\///")
       files="$line\n$files"
     done
   fi
@@ -25,8 +25,8 @@ scan_packages() {
     return 0
   fi
 
-  system_packages="$(package_manager get_manually_installed)"
-  user_packages="$(get_user_packages)"
+  system_packages=$(package_manager get_manually_installed)
+  user_packages=$(get_user_packages)
 
   if [ "$system_packages" = "$user_packages" ]; then
     log debug "Packages match"

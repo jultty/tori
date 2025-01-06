@@ -6,8 +6,8 @@ resolve_packages() {
   ( echo "$system_packages" > "$TMP_ROOT/system_packages"
     echo "$user_packages" > "$TMP_ROOT/user_packages" )
 
-  local packages_not_on_configuration="$(grep -v -x -f \
-    "$TMP_ROOT/user_packages" "$TMP_ROOT/system_packages" | xargs)"
+  local packages_not_on_configuration=$(grep -v -x -f \
+    "$TMP_ROOT/user_packages" "$TMP_ROOT/system_packages" | xargs)
 
   if [ -n "$packages_not_on_configuration" ]; then
     not_on_configuration_dialog "$packages_not_on_configuration"

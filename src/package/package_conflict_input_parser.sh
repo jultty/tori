@@ -19,7 +19,7 @@ package_conflict_input_parser() {
 
   $EDITOR "$input"
 
-  choices="$(cat "$input" | grep -v '^#' | grep '.')"
+  choices=$(cat "$input" | grep -v '^#' | grep '.')
   echo "$choices" > "$input_choices"
 
   # validation

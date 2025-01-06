@@ -7,7 +7,7 @@ backup_paths() {
 
   for path in $paths; do
     canonical_path="$BACKUP_ROOT/canonical$path"
-    timestamp="$(date +'%Y-%m-%dT%H-%M-%S')"
+    timestamp=$(date +'%Y-%m-%dT%H-%M-%S')
     ephemeral_path="$BACKUP_ROOT/ephemeral${path}_$timestamp"
 
     log debug "[backup] Processing path $path"
