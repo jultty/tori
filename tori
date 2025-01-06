@@ -32,7 +32,6 @@ main() {
   AUTHORIZE_COMMAND="sudo"
 
   base_files=
-  bkp_files=
   user_packages=
   system_packages=
 
@@ -40,21 +39,26 @@ main() {
   prepare_directories
 
   # entry point
-
-  if [ "$argument" = check ]; then
-    check
-  elif [ "$argument" = cache ]; then
-    update_package_cache --force
-  elif [ "$argument" = version ] || [ "$argument" = -v ] || [ "$argument" = --version ]; then
-    echo "$VERSION"
-  elif [ "$argument" = help ] || [ "$argument" = -h ] || [ "$argument" = --help ]; then
-    print_help
-  else
-    echo "Use 'tori help' for usage instructions"
-  fi
   user_options=$(parse_options "$*" "$CANONICAL_OPTIONS")
   log debug "[main] user_options = $user_options"
 
+  case "$command" in
+    check)
+      check
+      ;;
+    cache)
+      update_package_cache --force
+      ;;
+    version|-v|--version)
+      echo "$VERSION"
+      ;;
+    help|-h|--help)
+      print_help
+      ;;
+    *)
+      echo "Use 'tori help' for usage instructions"
+      ;;
+  esac
 }
 
 check_core_paths() {
