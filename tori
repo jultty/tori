@@ -13,10 +13,13 @@ main() {
   # os-independent state
 
   DEBUG_DISABLED_WARNING=
+  CANONICAL_OPTIONS='
+  check:only-files:only-packages:prefer-config:prefer-system
+  '
 
   ## user input
-  argument="$1"
-  parameter="$2"
+  command="$1"
+  user_options=
 
   # import source
   check_core_paths
@@ -49,6 +52,9 @@ main() {
   else
     echo "Use 'tori help' for usage instructions"
   fi
+  user_options=$(parse_options "$*" "$CANONICAL_OPTIONS")
+  log debug "[main] user_options = $user_options"
+
 }
 
 check_core_paths() {
@@ -72,4 +78,4 @@ check_core_paths() {
 
 }
 
-main "$1" "$2"
+main "$@"

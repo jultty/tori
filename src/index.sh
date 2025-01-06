@@ -2,6 +2,7 @@
 . "$TORI_ROOT/src/configuration.sh"
 . "$TORI_ROOT/src/utility.sh"
 . "$TORI_ROOT/src/system.sh"
+. "$TORI_ROOT/src/parse_options.sh"
 
 . "$TORI_ROOT/src/package/package_manager.sh"
 . "$TORI_ROOT/src/package/package_conflict_resolution.sh"
