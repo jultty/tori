@@ -1,0 +1,10 @@
+shell=sh
+source-path=src
+
+# 3043 : In POSIX sh, local is undefined
+# 2155 : Declare and assign separately to avoid masking return values
+# 1087 : Use braces when expanding arrays
+# 2001 : See if you can use ${variable//search/replace} instead
+disable=SC3043,SC2155,SC1087,SC2001
+
+enable=add-default-case,deprecate-which
