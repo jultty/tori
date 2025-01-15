@@ -14,7 +14,8 @@ main() {
 
   DEBUG_DISABLED_WARNING=
   CANONICAL_OPTIONS='
-  check:only-files:only-packages:prefer-config:prefer-system
+  version:help:cache
+  :check:only-files:only-packages:prefer-config:prefer-system
   '
 
   ## user input
