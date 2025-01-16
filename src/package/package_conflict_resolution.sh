@@ -10,14 +10,26 @@ resolve_packages() {
     "$TMP_ROOT/user_packages" "$TMP_ROOT/system_packages" | xargs)
 
   if [ -n "$packages_not_on_configuration" ]; then
-    not_on_configuration_dialog "$packages_not_on_configuration"
+      if check_option prefer-config; then
+          package_manager uninstall "$packages_not_on_configuration"
+      elif check_option prefer-system; then
+          track_packages "$packages_not_on_configuration"
+      else
+          not_on_configuration_dialog "$packages_not_on_configuration"
+      fi
   fi
 
   local packages_not_installed=$(grep -vxf \
     "$TMP_ROOT/system_packages" "$TMP_ROOT/user_packages" | xargs)
 
   if [ -n "$packages_not_installed" ]; then
-    not_installed_dialog "$packages_not_installed"
+      if check_option prefer-config; then
+          package_manager install "$packages_not_installed"
+      elif check_option prefer-system; then
+          untrack_packages "$packages_not_installed"
+      else
+          not_installed_dialog "$packages_not_installed"
+      fi
   fi
 }
 
