@@ -2,8 +2,9 @@ merge_files() {
     local base_files="$1"
     local strategy="${2:-tree}"
 
+    log info "[merge_files] Merging with $strategy strategy"
+
     if [ "$strategy" = tree ]; then
-        log info "[merge_files] Merging with $strategy strategy"
         if ! file_scan_tree "$base_files"; then
             if ! file_merge_tree "$base_files"; then
                 merge_files "$base_files"

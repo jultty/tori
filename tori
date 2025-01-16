@@ -11,7 +11,6 @@ main() {
   CACHE_ROOT="$HOME/.cache/tori"
 
   # os-independent state
-
   DEBUG_DISABLED_WARNING=
   CANONICAL_OPTIONS='
   version:help:cache
