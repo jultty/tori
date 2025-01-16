@@ -13,7 +13,7 @@ main() {
   # os-independent state
   DEBUG_DISABLED_WARNING=
   CANONICAL_OPTIONS='
-  version:help:cache
+  version:help:cache:os
   :check:only-files:only-packages:prefer-config:prefer-system
   '
 
@@ -48,6 +48,9 @@ main() {
           ;;
       cache)
           update_package_cache --force
+          ;;
+      os)
+          echo "$OS"
           ;;
       version|-v|--version)
           echo "$VERSION"
