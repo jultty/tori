@@ -18,31 +18,30 @@ parse_options() {
     log debug "[parse_arguments] Parsing user arguments $user_arguments"
 
     split_arguments=":$(echo "$user_arguments" | xargs |
-        sed 's/ /\n/g' | sed -E 's/^-+//' | sort -h | xargs | sed 's/ /:/g'
-    ):"
+        sed 's/ /\n/g' | sed -E 's/^-+//' | sort -h | xargs | sed 's/ /:/g'):"
 
-    log debug "[parse_arguments] Split arguments: $split_arguments"
+            log debug "[parse_arguments] Split arguments: $split_arguments"
 
-    canon_regex=$(echo "$canon" | xargs | sed 's/ //g' | sed 's/:/|/g')
+            canon_regex=$(echo "$canon" | xargs | sed 's/ //g' | sed 's/:/|/g')
 
-    log debug "Canonical arguments regex: $canon_regex"
+            log debug "Canonical arguments regex: $canon_regex"
 
-    bad_args=$(echo "$split_arguments" |
-        sed 's/:/\n/g' | grep -vE "$canon_regex")
+            bad_args=$(echo "$split_arguments" |
+                sed 's/:/\n/g' | grep -vE "$canon_regex")
 
-    if [ -n "$bad_args" ]; then
-        log fatal "Unrecognized arguments: $(echo "$bad_args" | xargs)"
-        exit 1
-    elif echo "$split_arguments" | grep -q prefer-config && echo "$split_arguments" | grep -q prefer-system; then
-        log fatal "Can't simultaneously set prefer-config and prefer-system options"
-        exit 1
-    elif echo "$split_arguments" | grep -q only-packages && echo "$split_arguments" | grep -q only-files; then
-        log fatal "Can't simultaneously set only-packages and only-files options"
-        exit 1
-    else
-        echo "$split_arguments"
-    fi
-}
+            if [ -n "$bad_args" ]; then
+                log fatal "Unrecognized arguments: $(echo "$bad_args" | xargs)"
+                exit 1
+            elif echo "$split_arguments" | grep -q prefer-config && echo "$split_arguments" | grep -q prefer-system; then
+                log fatal "Can't simultaneously set prefer-config and prefer-system options"
+                exit 1
+            elif echo "$split_arguments" | grep -q only-packages && echo "$split_arguments" | grep -q only-files; then
+                log fatal "Can't simultaneously set only-packages and only-files options"
+                exit 1
+            else
+                echo "$split_arguments"
+            fi
+        }
 
 # Checks if a given option was set by the user
 # Receives two arguments:

@@ -43,42 +43,41 @@ main() {
   log debug "[main] user_options = $user_options"
 
   case "$command" in
-    check)
-      check
-      ;;
-    cache)
-      update_package_cache --force
-      ;;
-    version|-v|--version)
-      echo "$VERSION"
-      ;;
-    help|-h|--help)
-      print_help
-      ;;
-    *)
-      echo "Use 'tori help' for usage instructions"
-      ;;
+      check)
+          check
+          ;;
+      cache)
+          update_package_cache --force
+          ;;
+      version|-v|--version)
+          echo "$VERSION"
+          ;;
+      help|-h|--help)
+          print_help
+          ;;
+      *)
+          echo "Use 'tori help' for usage instructions"
+          ;;
   esac
 }
 
 check_core_paths() {
-  local tori_conf="$CONFIG_ROOT/tori.conf"
+    local tori_conf="$CONFIG_ROOT/tori.conf"
 
-  if [ -f "$tori_conf" ]; then
-    local tori_root_value
-    tori_root_value="$(grep -i '^tori_root' "$CONFIG_ROOT/tori.conf" \
-      | cut -d '=' -f 2 | xargs \
-      | sed "s*~*$HOME*" | sed "s*\$HOME*$HOME*g" \
-    )"
-    if [ -n "$tori_root_value" ]; then
-      TORI_ROOT="$tori_root_value"
+    if [ -f "$tori_conf" ]; then
+        local tori_root_value
+        tori_root_value=$(grep -i '^tori_root' "$CONFIG_ROOT/tori.conf" |
+            cut -d '=' -f 2 | xargs |
+            sed "s*~*$HOME*" | sed "s*\$HOME*$HOME*g")
+        if [ -n "$tori_root_value" ]; then
+            TORI_ROOT="$tori_root_value"
+        fi
     fi
-  fi
 
-  if ! [ -f "$TORI_ROOT/src/index.sh" ]; then
-    echo "No valid tori installation found at $TORI_ROOT"
-    exit 1
-  fi
+    if ! [ -f "$TORI_ROOT/src/index.sh" ]; then
+        echo "No valid tori installation found at $TORI_ROOT"
+        exit 1
+    fi
 
 }
 

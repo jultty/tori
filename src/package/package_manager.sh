@@ -1,47 +1,47 @@
 package_manager() {
-  local command="$1"
+    local command="$1"
 
-  local manager
-  local args__install
-  local args__uninstall
-  local args__get_manually_installed
-  local args__get_available
+    local manager
+    local args__install
+    local args__uninstall
+    local args__get_manually_installed
+    local args__get_available
 
-  set_opts off
-  local args__user_args="$2"
-  set_opts on
+    set_opts off
+    local args__user_args="$2"
+    set_opts on
 
-  if [ "$OS" = FreeBSD ]; then
-    manager="pkg"
-    args__get_manually_installed='query -e "%a = 0" "%n"'
-    args__install='install'
-    args__uninstall='delete'
-    args__update='update'
-    args__get_available="rquery -a '%n'"
-  elif [ "$OS" = Void ]; then
-    manager=""
-    args__get_manually_installed='xbps-query -m | rev | cut -d '-' -f 2- | rev'
-    args__install='xbps-install'
-    args__uninstall='xbps-remove'
-    args__update='xbps-install -S'
-    args__get_available="xbps-query --regex -Rs '.*' | cut -d ' ' -f 2 | rev | cut -d '-' -f 2- | rev"
-  else
-    log fatal "No package manager handler for $OS"
-    exit 1
-  fi
+    if [ "$OS" = FreeBSD ]; then
+        manager="pkg"
+        args__get_manually_installed='query -e "%a = 0" "%n"'
+        args__install='install'
+        args__uninstall='delete'
+        args__update='update'
+        args__get_available="rquery -a '%n'"
+    elif [ "$OS" = Void ]; then
+        manager=""
+        args__get_manually_installed='xbps-query -m | rev | cut -d '-' -f 2- | rev'
+        args__install='xbps-install'
+        args__uninstall='xbps-remove'
+        args__update='xbps-install -S'
+        args__get_available="xbps-query --regex -Rs '.*' | cut -d ' ' -f 2 | rev | cut -d '-' -f 2- | rev"
+    else
+        log fatal "No package manager handler for $OS"
+        exit 1
+    fi
 
   # shellcheck disable=SC2086
   if [ "$command" = 'get_manually_installed' ]; then
-    eval $manager $args__get_manually_installed
+      eval $manager $args__get_manually_installed
   elif [ "$command" = 'install' ]; then
-    $AUTHORIZE_COMMAND $manager $args__install $args__user_args
+      $AUTHORIZE_COMMAND $manager $args__install $args__user_args
   elif [ "$command" = 'uninstall' ]; then
-    $AUTHORIZE_COMMAND $manager $args__uninstall $args__user_args
+      $AUTHORIZE_COMMAND $manager $args__uninstall $args__user_args
   elif [ "$command" = 'update' ]; then
-    $AUTHORIZE_COMMAND $manager $args__update
+      $AUTHORIZE_COMMAND $manager $args__update
   elif [ "$command" = 'get_available' ]; then
-    eval $manager "$args__get_available"
+      eval $manager "$args__get_available"
   else
-    log debug "[package_manager] Unexpected command: $command"
+      log debug "[package_manager] Unexpected command: $command"
   fi
 }
