@@ -1,2 +1,2 @@
-0a5393501ddf895cc7855a574500584f44ae2e738c874fb0778553741ab339bd  config/void/base/home/test_user/.config/tori-test.toml
-f855325abb6f9a91d2cb6293459256bea8088aa3b8df70b65fedcfa3850f5417  config/void/base/home/test_user/.shrc
+f855325abb6f9a91d2cb6293459256bea8088aa3b8df70b65fedcfa3850f5417  config/base/home/test_user/.shrc
+0a5393501ddf895cc7855a574500584f44ae2e738c874fb0778553741ab339bd  config/base/home/test_user/.config/tori-test.toml

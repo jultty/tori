@@ -5,7 +5,6 @@ set -eu
 test_name=files
 config_dir="$HOME/.config/tori"
 tori_path=
-os_slug=
 
 log() {
     echo " [tori test: $test_name] $1"
@@ -34,15 +33,21 @@ else
     exit 1
 fi
 
+if $tori_path os > /dev/null 2>&1; then
+    OS="$($tori_path os)"
+else
+    log "Failed to get OS from tori"
+    exit 1
+fi
+
 log "Setting up configuration"
 
-case "$($tori_path os)" in
-    Void)
-        log "OS is Void"
-        os_slug=void
+case $OS in
+    Void|FreeBSD)
+        log "OS=$OS"
         rm -vrf "$config_dir"
         ! [ -d "$config_dir" ] && mkdir -p "$(dirname "$config_dir")"
-        cp -rv config/$os_slug "$config_dir"
+        cp -rv config "$config_dir"
         echo "tori_root = $(dirname "$tori_path")" > "$config_dir/tori.conf"
         mv -v "$config_dir/base/home/test_user" "$config_dir/base/home/$USER"
         tree "$HOME/.config/tori"
@@ -61,11 +66,11 @@ log "Comparing checksums"
 sha256sum -c checksums/canonical
 
 cat checksums/canonical |
-    sed "s:config/$os_slug:$config_dir:" |
+    sed "s:config:$config_dir:" |
     sed "s/test_user/$USER/g" > checksums/config_checksums.local
 
 cat checksums/canonical |
-    sed "s:config/$os_slug/base::" |
+    sed "s:config/base::" |
     sed "s/test_user/$USER/g" > checksums/system_checksums.local
 
 sha256sum -c checksums/config_checksums.local
