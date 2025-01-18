@@ -1,5 +1,3 @@
-# utility functions
-
 log() {
     local level="$1"
     local message="$2"
@@ -91,60 +89,6 @@ ask() {
 
 tildify() {
     echo "$1" | sed "s*$HOME*~*"
-}
-
-set_opts() {
-    local target="$1"
-    local sign=
-
-    if [ "$target" = on ]; then
-        sign='-'
-    elif [ "$target" = off ]; then
-        sign='+'
-    else
-        log fatal "Invalid set_opts target: $target. Expected on or off"
-        return 1
-    fi
-
-    set_opt() {
-        local opt="$1"
-
-        if set -o | grep -q "^$opt[[:space:]]"; then
-            set "${sign}o" "$opt"
-            log debug "[set_opts] Set: $(set -o | grep "^$opt[[:space:]]")"
-        else
-            log fatal "Unsupported shell: no $opt option support"
-            return 1
-        fi
-    }
-
-    set_opt errexit
-    set_opt nounset
-}
-
-prepare_directories() {
-    if ! [ -d "$TMP_ROOT" ]; then
-        mkdir "$TMP_ROOT"
-    fi
-
-    if ! [ -d "$CACHE_ROOT" ]; then
-        mkdir -p "$CACHE_ROOT"
-    fi
-
-    if ! [ -d "$BACKUP_ROOT" ]; then
-        mkdir -p "$BACKUP_ROOT"
-        if ! [ -d "$BACKUP_ROOT/canonical" ]; then
-            mkdir "$BACKUP_ROOT/canonical"
-        fi
-        if ! [ -d "$BACKUP_ROOT/ephemeral" ]; then
-            mkdir "$BACKUP_ROOT/ephemeral"
-        fi
-    fi
-
-    if ! [ -d "$CONFIG_ROOT" ]; then
-        log fatal "Configuration root not found at $CONFIG_ROOT"
-        exit 1
-    fi
 }
 
 print_help() {
