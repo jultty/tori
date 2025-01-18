@@ -1,3 +1,5 @@
+0.7.0 TBA       : Void port and CLI options
+
 0.6.2 2025-01-02: Improve handling when permissions lack but file exists
                   Do not exit if a packages file is not found
 

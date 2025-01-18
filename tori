@@ -3,7 +3,7 @@
 main() {
 
   # paths
-  VERSION="0.6.1 2025-01-02"
+  VERSION="0.7.0-alpha 0000-00-00"
   TORI_ROOT="$HOME/.local/share/tori"
   CONFIG_ROOT="$HOME/.config/tori"
   BACKUP_ROOT="$HOME/.local/state/tori/backup"
@@ -13,7 +13,7 @@ main() {
   # os-independent state
   DEBUG_DISABLED_WARNING=
   CANONICAL_OPTIONS='
-  version:help:cache:os
+  version:v:help:h:cache:os
   :check:only-files:only-packages:prefer-config:prefer-system
   '
 
