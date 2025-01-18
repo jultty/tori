@@ -1,3 +1,17 @@
+# TODO establish the following behavior:
+#
+# Merges files using a given strategy and a given set of overwrite choices
+# Receives three arguments:
+# 1 : a list of files from the config/base directory which may be all of them or a subset
+# 2 : name of a merging strategy (e.g., tree)
+# 3 : colon-separated list of overwrite choices, with leading and trailing colons (e.g., :prefer-config:) this may be
+#     facilicated by extracting the code in parsers/option_parser that validates CLI arguments against contradictory options
+# Example: merge_files "$files" tree :prefer-system:
+# Returns: a list obtained from file_scan_tree of differing files if it does not have enough information to merge them
+#          (e.g., lacking overwrite choices), allowing the caller (e.g., check) to pass this list to the user and ask
+#          them how to proceed;
+#          nothing if it has enough information to merge them, which signals that merging did take place
+
 merge_files() {
     local base_files="$1"
     local strategy="${2:-tree}"
@@ -13,6 +27,19 @@ merge_files() {
     fi
 }
 
+# TODO establish the following behavior, considering performance would be gained if
+# file_scan_tree returned a list of differing files, eliminating the need for
+# file_merge_tree to compare all base_files again:
+#
+# Assembles a list of base files that have corresponding differing files in the system
+# Receives one argument:
+# 1 : a list of files from the config/base directory which may be all of them or a subset
+# Example: file_scan_tree "$files"
+# Returns: a list of differing files if it does find any;
+#          nothing if it has found no differing files
+# Status: 1 if differing files were found
+#         0 if differing files were not found
+
 file_scan_tree() {
     local base_files="$1"
 
@@ -27,6 +54,8 @@ file_scan_tree() {
     return 0
 }
 
+# TODO should exit fatally if given files to merge without enough information to merge them (e.g. missing overwrite choices)
+# TODO should not interact with the user at all
 file_merge_tree() {
     local base_files="$1"
     local overwrite_choice=
@@ -45,6 +74,10 @@ file_merge_tree() {
         else
             log debug "[merge_tree] Files differ"
 
+            # TODO check-option should no longer inspect global state, but always be given what options to check
+            # TODO check-option maybe should also perform checks on contradictory options
+            #      these are presently only checked by the option_parser, which parses user-supplied input, meaning
+            #      such contradictions will go unchecked for internal use; consider extracting these checks
             if check_option prefer-config || check_option prefer-system; then
                 log debug "[file_merge_tree] Found non-interactive options "
                 if check_option prefer-config; then
