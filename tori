@@ -17,13 +17,13 @@ main() {
   :check:only-files:only-packages:prefer-config:prefer-system
   '
 
-  ## user input
-  command="$1"
-  user_options=
-
   # import source
   check_core_paths
   . "$TORI_ROOT/src/index.sh"
+
+  ## user input
+  command="$1"
+  user_options=$(parse_options "$*" "$CANONICAL_OPTIONS")
 
   ## os-dependent state
   set_opts on
@@ -31,20 +31,14 @@ main() {
   PACKAGE_CACHE="$CACHE_ROOT/${OS}_packages.cache"
   AUTHORIZE_COMMAND="sudo"
 
-  base_files=
-  user_packages=
-  system_packages=
-
   # startup checks
   prepare_directories
 
   # entry point
-  user_options=$(parse_options "$*" "$CANONICAL_OPTIONS")
-  log debug "[main] user_options = $user_options"
 
   case "$command" in
       check)
-          check
+          check "$user_options"
           ;;
       cache)
           update_package_cache --force
