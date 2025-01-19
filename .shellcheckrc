@@ -1,5 +1,6 @@
 shell=sh
 source-path=src
+external-sources=true
 
 # 3043 : In POSIX sh, local is undefined
 # 2155 : Declare and assign separately to avoid masking return values
