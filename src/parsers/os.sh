@@ -1,8 +1,12 @@
 get_operating_system() {
-    local uname_output=$(uname -s)
-    local os_release_name=$(cat /etc/os-release |
+    local uname_output
+    local os_release_name
+    local os_release_id
+
+    uname_output=$(uname -s)
+    os_release_name=$(cat /etc/os-release |
         grep '^NAME=' | sed 's/NAME=//' | sed 's/"//g')
-    local os_release_id=$(cat /etc/os-release | grep '^ID=' | sed 's/ID=//')
+    os_release_id=$(cat /etc/os-release | grep '^ID=' | sed 's/ID=//')
 
     log debug "uname OS: $uname_output"
     log debug "os-release name: $os_release_name"

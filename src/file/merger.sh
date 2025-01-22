@@ -42,7 +42,8 @@ file_scan_tree() {
     local differing_files=
 
     for file in $base_files; do
-        local absolute_path=$(echo "$file" | sed 's/^base//')
+        local absolute_path
+        absolute_path=$(echo "$file" | sed 's/^base//')
         local config_path="$CONFIG_ROOT/$file"
 
         if ! diff "$absolute_path" "$config_path" > /dev/null 2>&1; then
@@ -67,7 +68,8 @@ file_merge_tree() {
 
     for file in $base_files; do
         log debug "[merge_tree] Processing $file"
-        local absolute_path=$(echo "$file" | sed "s/base//")
+        local absolute_path
+        absolute_path=$(echo "$file" | sed "s/base//")
         log debug "[merge_tree] Absolute path: $absolute_path"
         local config_path="$CONFIG_ROOT/$file"
         log debug "[merge_tree] Config path: $config_path"

@@ -6,7 +6,8 @@ resolve_packages() {
   ( echo "$system_packages" > "$TMP_ROOT/system_packages"
   echo "$user_packages" > "$TMP_ROOT/user_packages" )
 
-  local packages_not_on_configuration=$(grep -vxf \
+  local packages_not_on_configuration
+  packages_not_on_configuration=$(grep -vxf \
       "$TMP_ROOT/user_packages" "$TMP_ROOT/system_packages" | xargs)
 
   if [ -n "$packages_not_on_configuration" ]; then
@@ -19,7 +20,8 @@ resolve_packages() {
       fi
   fi
 
-  local packages_not_installed=$(grep -vxf \
+  local packages_not_installed
+  packages_not_installed=$(grep -vxf \
       "$TMP_ROOT/system_packages" "$TMP_ROOT/user_packages" | xargs)
 
   if [ -n "$packages_not_installed" ]; then

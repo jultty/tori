@@ -52,7 +52,8 @@ check_option() {
 
     log debug "[check_option] Checking for $query in $options"
 
-    local parsed_options=$(parse_options "$options" "$CANONICAL_OPTIONS")
+    local parsed_options
+    parsed_options=$(parse_options "$options" "$CANONICAL_OPTIONS")
 
     if echo "$parsed_options" | grep -q "$query"; then
         log debug "[check_option] Option $query is set"

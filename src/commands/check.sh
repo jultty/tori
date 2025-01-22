@@ -2,13 +2,15 @@
 
 check() {
     local user_options="$1"
-    local base_files=$(scan_directory "$CONFIG_ROOT/base")
+    local base_files
+    base_files=$(scan_directory "$CONFIG_ROOT/base")
 
     log debug "collected base files:\n$base_files"
 
     log debug "Merging files"
 
-    local differing_files=$(merge_files "$base_files" tree "$user_options")
+    local differing_files
+    differing_files=$(merge_files "$base_files" tree "$user_options")
 
     if [ -n "$differing_files" ]; then
         log user "Differing files: $differing_files"
