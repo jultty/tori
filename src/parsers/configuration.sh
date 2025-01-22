@@ -28,7 +28,7 @@ scan_packages() {
     package_file="$1"
 
     if ! [ -f  "$package_file" ]; then
-        log debug "[scan_packages] No file found at $package_file"
+        log debug "[scan_packages] Skipping: no packages file"
         return 0
     fi
 
