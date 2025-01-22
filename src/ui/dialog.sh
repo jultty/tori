@@ -1,13 +1,20 @@
 log() {
     local level="$1"
-    local message="$2"
+    local origin="${2}"
+    local message="${3:-$2}"
+
+    [ "$origin" = "$message" ] && origin=
 
     print_user_message() {
         printf "%b\n" "[tori] $(date "+%H:%M:%S"): $1" 1>&2
     }
 
     print_debug_message() {
-        printf "%b\n" "$(date "+%H:%M:%N") $1" 1>&2
+        if [ -n "$origin" ]; then
+            printf "%b\n" "$(date "+%H:%M:%S") [$level] [$origin] $1" 1>&2
+        else
+            printf "%b\n" "$(date "+%H:%M:%S") [$level] $1" 1>&2
+        fi
     }
 
     if [ -z "$DEBUG" ]; then
@@ -35,9 +42,9 @@ log() {
     elif [  "$DEBUG" -ge 3 ] && [ "$level" = warn ]; then
         print_user_message "Warning: $message"
     elif [ "$DEBUG" -ge 4 ] && [ "$level" = info ]; then
-        print_debug_message "Info: $message"
+        print_debug_message "$message"
     elif [ "$DEBUG" -ge 5 ] && [ "$level" = debug ]; then
-        print_debug_message "Debug: $message"
+        print_debug_message "$message"
     fi
 }
 
