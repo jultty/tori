@@ -67,6 +67,8 @@ ask() {
     local options_count=0
     local dialog_options=
 
+    options=$(echo "$options" | xargs | sed -E 's/[[:space:]]+,/,/g' | sed -E 's/,[[:space:]]+/,/g')
+
     local IFS=,
     for option in $options; do
         _=$((options_count+=1))
