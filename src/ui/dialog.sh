@@ -63,19 +63,26 @@ confirm() {
 ask() {
     local question="$1"
     local options="$2"
+
     local answer=
     local options_count=0
     local dialog_options=
-
+    local key_map=
+    local options
     options=$(echo "$options" | xargs | sed -E 's/[[:space:]]+,/,/g' | sed -E 's/,[[:space:]]+/,/g')
 
     local IFS=,
     for option in $options; do
         _=$((options_count+=1))
-        dialog_options="$dialog_options\n [$options_count] $option"
+        option_text=$(echo "$option" | cut -d ' ' -f 2- | xargs)
+        option_key=$(echo "$option" | cut -d ' ' -f 1 | xargs)
+        dialog_options="$dialog_options\n [$options_count] $option_text"
+        key_map="$key_map\n$options_count $option_key"
     done;
     IFS=
     dialog_options="$dialog_options\n [0] Exit"
+
+    log debug ask "key_map: $key_map"
 
     printf "%s" "$question" >&2
     printf "%b" "$dialog_options" >&2
@@ -88,7 +95,7 @@ ask() {
         echo -1
         return 1
     elif [ "$answer" -ge 0 ] 2> /dev/null && [ "$answer" -le $options_count ]; then
-        echo "$answer"
+        echo "$key_map" | grep "^$answer" | cut -d ' ' -f 2-
     else
         log info "[ask] Invalid choice"
         echo -1

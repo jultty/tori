@@ -14,7 +14,10 @@ main() {
   DEBUG_DISABLED_WARNING=
   CANONICAL_OPTIONS='
   version:v:help:h:cache:os
-  :check:only-files:only-packages:prefer-config:prefer-system
+  :check
+  :only-files:only-packages
+  :prefer-config:prefer-system
+  :overwrite-config:overwrite-system
   '
 
   # import source
