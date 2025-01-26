@@ -21,4 +21,6 @@ prepare_directories() {
         log fatal "Configuration root not found at $CONFIG_ROOT"
         exit 1
     fi
+
+    log debug prepare_directories "Directories prepared"
 }
